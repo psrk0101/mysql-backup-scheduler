@@ -1,6 +1,12 @@
 {
-  "type": "module",
   "dependencies": {
-    "mysqldump": "^3.2.0"
+    "mysqldump": "^3.2.0",
+    "node-cron": "^3.0.2",
+    "pm2": "^5.2.2"
+  },
+  "type": "module",
+  "scripts": {
+    "start":"pm2 stop pm2.json && pm2 start pm2.json",
+    "log":"sudo pm2 logs"
   }
 }
