@@ -1,21 +1,24 @@
-import mysqldump from 'mysqldump';
-import cron from 'node-cron';
-import { databases, schedule } from './config.js';
-import fs from 'fs'
+const host = 'localhost'
+const user = 'root'
+const password = 'qwer1234'
 
-const dumpLocation = './dump/'
-const makeFolder = (dir) => {
-    if(!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
+export const schedule = '0 * * * * *'
+export const databases = [
+    {
+        connection:{
+            host:host,
+            user:user,
+            password:password,
+            database:'dev-schema'
+        },
+        dumpFileName: 'dev-dump.sql'
+    }, {
+        connection:{
+            host:host,
+            user:user,
+            password:password,
+            database:'live-schema'
+        },
+        dumpFileName: 'live-dump.sql'
     }
-}
-
-cron.schedule(schedule, () => {
-    databases.forEach(x => {
-        const date = new Date()
-        let path = dumpLocation + date.getDate() + '/' + date.getMinutes();
-        makeFolder(path);
-        x.dumpToFile = path + '/' + x.dumpFileName
-        mysqldump(x)
-    })
-})
+]
