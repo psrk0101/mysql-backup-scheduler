@@ -1,17 +1,21 @@
 import mysqldump from 'mysqldump';
-import { databases } from './config';
-import fs from 'fs';
+import cron from 'node-cron';
+import { databases, schedule } from './config.js';
+import fs from 'fs'
 
-const dumpLocation = './dump/';
+const dumpLocation = './dump/'
 const makeFolder = (dir) => {
     if(!fs.existsSync(dir)){
-        fs.mkdirSync(dir)
+        fs.mkdirSync(dir);
     }
 }
 
-databases.forEach(x => {
-    let path = dumpLocation + new Date().getDate();
-    makeFolder(path);
-    x.dumpToFile = path + '/' + x.dumpToFile
-    mysqldump(x);
+cron.schedule(schedule, () => {
+    databases.forEach(x => {
+        const date = new Date()
+        let path = dumpLocation + date.getDate() + '/' + date.getMinutes();
+        makeFolder(path);
+        x.dumpToFile = path + '/' + x.dumpFileName
+        mysqldump(x)
+    })
 })
