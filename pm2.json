@@ -1,0 +1,13 @@
+{
+    "apps":[
+        {
+            "name": "mysql-backup-scheduler",
+            "script": "./app.js",
+            "instance": 1,
+            "exec_mode":"cluster",
+            "env":{
+                "NODE_ENV": "production"
+            }
+        }
+    ]
+}
