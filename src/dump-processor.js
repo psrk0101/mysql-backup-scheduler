@@ -11,11 +11,13 @@ const makeFolder = (dir) => {
 }
 
 export function dump(d){
+    const dumpFiles = new Array();
     databases.forEach(x => {
         let path = dumpLocation + d.getDate() + '/' + d.getMinutes() + '/';
         makeFolder(path);
         x.dumpToFile = path + x.dumpFileName
-        console.log(x)
+        dumpFiles.push(x.dumpToFile)
         mysqldump(x)
-       })
+    })
+    return dumpFiles;
 }
