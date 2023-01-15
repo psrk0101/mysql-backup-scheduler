@@ -1,2 +1,3 @@
 node_modules
 dump/*
+pm2.json

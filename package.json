@@ -2,6 +2,8 @@
   "dependencies": {
     "app-root-path": "^3.1.0",
     "aws-sdk": "^2.1294.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.0.1",
     "mysqldump": "^3.2.0",
     "node-cron": "^3.0.2",
     "pm2": "^5.2.2"
@@ -10,6 +12,7 @@
   "scripts": {
     "dev": "node app.js",
     "start": "sudo pm2 stop pm2.json && sudo pm2 start pm2.json",
+    "stop": "sudo pm2 stop pm2.json",
     "log": "sudo pm2 logs"
   }
 }
