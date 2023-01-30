@@ -14,15 +14,15 @@ const pathFormat = (date) => {
 	return dateFormat2;
 }
 
-export function run(){
+export async function run(){
     cron.schedule(schedule, () => {
         const date = new Date();
         let path = dumpLocation + pathFormat(date) + '/';
-        getDatabases().then(databases => {
-            const files = dump(path, databases);
-            Promise.all(files.map(file => uploadFile(file))).then(result => {
-                removeFolder(dumpLocation)
-            })
-        })    
+        getDatabases().then(async databases => {
+            const files = await dump(path, databases);
+            const promises = files.map(file => uploadFile(file));
+            await Promise.all(promises);
+            removeFolder(dumpLocation);
+        })
     })
 }

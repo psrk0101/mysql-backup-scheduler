@@ -29,6 +29,8 @@ const deleteS3Files = async (filterKey) => {
               Objects: deleteFiles
             },
         };
+
+        console.log('deleteFiles: ', deleteFiles);
         
         s3.deleteObjects(options, function(err, data){
             if(data){
@@ -55,7 +57,7 @@ export function uploadFile(fileName){
             if(err) throw err;
             console.log(`file uploaded success. ${data.Location}`)
             const filterKey = data.key.substring(data.key.lastIndexOf("/"));
-            deleteS3Files(filterKey);            
+            await deleteS3Files(filterKey);            
             resolve(fileName)
         })
     });

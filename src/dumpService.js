@@ -1,10 +1,10 @@
 import mysqldump from 'mysqldump';
 import { makeFolder } from './fileService.js';
 
-export function dump(path, databases){
+export async function dump(path, databases){
     let dumpFiles = new Array();
 
-    databases.forEach(x => {
+    for(const [idx, x] of databases.entries()){
         let dumpObj = {
             connection:{
                 host: process.env.DATABASE_HOST,
@@ -18,8 +18,9 @@ export function dump(path, databases){
         makeFolder(path);
         dumpObj.dumpToFile = path + dumpObj.dumpFileName
         dumpFiles.push(dumpObj.dumpToFile)
-        mysqldump(dumpObj)
-    })
+        await mysqldump(dumpObj);
+    }
 
+    console.log('dump success')
     return dumpFiles;
 }
