@@ -17,7 +17,8 @@ const pathFormat = (date) => {
 }
 
 export async function run(){
-    const date = new Date();
+    cron.schedule(schedule, () => {
+        const date = new Date();
         let path = dumpLocation + pathFormat(date) + '/';
         console.log(path);
         getDatabases().then(async databases => {
@@ -27,16 +28,5 @@ export async function run(){
             await Promise.all(promises);
             removeFolder(dumpLocation);
         })
-    // cron.schedule(schedule, () => {
-    //     const date = new Date();
-    //     let path = dumpLocation + pathFormat(date) + '/';
-    //     console.log(path);
-    //     getDatabases().then(async databases => {
-    //         const files = await dump(path, databases);
-    //         console.log(files)
-    //         const promises = files.map(file => uploadFile(file));
-    //         await Promise.all(promises);
-    //         removeFolder(dumpLocation);
-    //     })
-    // })
+    })
 }
